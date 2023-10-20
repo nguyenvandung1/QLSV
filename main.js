@@ -228,9 +228,8 @@ function saveLC() {
     if (listSV.list.length > 0) {
         let danhSachSinhVienJson = JSON.stringify(listSV.list);
         localStorage.setItem("ListSinhVienLC", danhSachSinhVienJson);
-
         alert('Save successfully!');
-    } else{
+    } else {
         alert('List SV null!');
     }
 }
@@ -240,17 +239,18 @@ function saveLC() {
 function getLC() {
     let jsDSSV = localStorage.getItem("ListSinhVienLC");
     let listJS = JSON.parse(jsDSSV);
-    
-    if(listJS.length > 0){
+
+    if (listJS.length > 0) {
         listSV.list = listJS;
-    } else{
+        loadListSV(listSV.list);
+        alert('Get successfully');
+
+    } else {
         alert('List localStorage null');
     }
     // console.log(listSV.list);
     // console.log(listSV.list[0].dTB);
 
-    loadListSV(listSV.list);
-    alert('Get successfully');
 
 }
 

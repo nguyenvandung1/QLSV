@@ -413,9 +413,11 @@ function btnEdit() {
     listSV.editSV(vt, sv);
     alert("Sửa thành công!!");
     loadForm2();
-    let form_edit = DOM('form_edit');
+    let form_edit = DOMID('form_edit');
     form_edit.style.display = 'none';
     loadListSV(listSV.list);
+
+
 
 }
 

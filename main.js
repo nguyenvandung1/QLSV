@@ -230,6 +230,8 @@ function saveLC() {
         localStorage.setItem("ListSinhVienLC", danhSachSinhVienJson);
 
         alert('Save successfully!');
+    } else{
+        alert('List SV null!');
     }
 }
 
@@ -241,6 +243,8 @@ function getLC() {
     
     if(listJS.length > 0){
         listSV.list = listJS;
+    } else{
+        alert('List localStorage null');
     }
     // console.log(listSV.list);
     // console.log(listSV.list[0].dTB);

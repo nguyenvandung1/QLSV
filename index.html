@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<style>
+    .diaglog {
+        background-color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+
+
+    .form_edit {
+        display: none;
+        width: 80%;
+
+        top: 15%;
+        left: 10%;
+        z-index: 999;
+        background-color: white;
+
+    }
+
+</style>
+
+<body>
+    <div class="position-relative w-100" style="height: 100vh;">
+        <div class="container d-flex flex-column justify-content-center pt-5 align-items-center w-75 none">
+            <h1 class="text-primary">QUẢN LÝ SINH VIÊN</h1>
+
+            <form action="" class="d-flex flex-row justify-content-center align-items-center w-75 mt-5">
+                <div class="me-5 w-50">
+                    <label for="ipMSV" class="form-label">Mã Sinh Viên:</label>
+                    <input type="text" class="form-control" id="ipMSV" />
+                    <p class="text text-danger" id="errMSV"></p>
+
+                    <label for="exampleInputEmail1" class="form-label">Email: </label>
+                    <input type="ipEmail" class="form-control" id="ipEmail" />
+                    <p class="text text-danger" id="errMail"></p>
+
+                    <label for="ipBirth" class="form-label">Ngày Sinh: </label>
+                    <input type="date" class="form-control" id="ipBirth" />
+                    <p class="text text-danger" id="errBirth"></p>
+
+                </div>
+
+                <div class="ms-5 w-50">
+                    <label for="ipName" class="form-label">Tên Sinh Viên: </label>
+                    <input type="text" class="form-control" id="ipName" />
+                    <p class="text text-danger" id="errName"></p>
+
+
+                    <label for="ipPass" class="form-label">Mật Khẩu: </label>
+                    <input type="password" class="form-control" id="ipPass" />
+                    <p class="text text-danger" id="errPass"></p>
+
+
+                    <label for="ipCourse" class="form-label">Khóa Học: </label>
+                    <select class="form-select" id="ipCourse" aria-label="Floating label select example">
+                        <option selected>Chọn Khóa học</option>
+                        <option value="React Native">React Native</option>
+                        <option value="FLUTER">FLUTER</option>
+                        <option value="Web FullStack">Web FullStack</option>
+                        <option value="Java">Java</option>
+                    </select>
+                    <p class="text text-danger" id="errKH"></p>
+
+                    <!-- <label for="floatingSelect">Works with selects</label> -->
+                </div>
+            </form>
+            <div class="d-flex justify-content-between w-75 point">
+                <div>
+                    <label for="ipDT" class="form-label">Điểm Toán: </label>
+                    <input type="number" class="form-control" id="ipDT" />
+                    <p class="text text-danger" id="errDT"></p>
+
+                </div>
+                <div>
+                    <label for="ipDL" class="form-label">Điểm Lý: </label>
+                    <input type="number" class="form-control" id="ipDL" />
+                    <p class="text text-danger" id="errDL"></p>
+
+                </div>
+                <div>
+                    <label for="ipDH" class="form-label">Điểm Hóa: </label>
+                    <input type="number" class="form-control" id="ipDH" />
+                    <p class="text text-danger" id="errDH"></p>
+
+                </div>
+            </div>
+
+            <div class="btn_1 mt-5">
+                <button type="button" class="btn btn-primary" onclick="ADDSV()" id="btnADD">Thêm Sinh Viên</button>
+                <button type="button" class="btn btn-success" onclick="saveLC()" id="btnADD">SAVE LIST</button>
+                <button type="button" class="btn btn-dark" onclick="getLC()" id="btnADD">GET LIST</button>
+                <button type="button" class="btn btn-secondary" onclick="loadTable()" id="btnUpdate">Load List</button>
+                <button type="button" class="btn btn-info" onclick="deleteForm()">Delete form</button>
+            </div>
+
+            <div class="w-50 ip_name mt-5 d-flex">
+                <input type="text" class="form-control" id="search" placeholder="Nhập tên sinh viên" />
+                <button type="button" class="btn btn-primary ms-3" id="btnSearch" onclick="search()">Search</button>
+            </div>
+
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã Sinh Viên</th>
+                        <th scope="col">Tên Sinh Viên</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Ngày Sinh</th>
+                        <th scope="col">Khóa Học</th>
+                        <th scope="col">Điểm Trung Bình</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="table">
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <div id="diaglog" class="container diaglog w-50 shadow-lg p-3 mb-5 bg-body-tertiary rounded"
+            style="display: none;">
+            <h1 class="text-info h-50" style="text-align: center;">THÔNG TIN SINH VIÊN</h1>
+            <div class="mt-1 p-5">
+                <div class="d-flex">
+                    <h6 class="me-3">Mã Sinh Viên: </h6>
+                    <p id="txtMSV"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Tên Sinh Viên: </h6>
+                    <p id="txtName"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Email: </h6>
+                    <p id="txtEmail"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Ngày Sinh: </h6>
+                    <p id="txtBirth"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Khóa Học: </h6>
+                    <p id="txtCourse"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Điểm Toán: </h6>
+                    <p id="txtDT"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Điểm Lý: </h6>
+                    <p id="txtDL"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Điểm Hóa: </h6>
+                    <p id="txtDH"></p>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="me-3">Điểm TB: </h6>
+                    <p id="txtDTB"></p>
+                </div>
+
+
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-info m-3" onclick="btnBack()">Back</button>
+                <button type="button" id="btnUpdate" class="btn btn-success m-3" onclick="updateSV()">Sửa thông
+                    tin</button>
+            </div>
+
+        </div>
+
+        <div id="form_edit" class="form_edit container shadow-lg p-3 mb-5 bg-body-tertiary rounded position-absolute ">
+            <h4 class="text-center">EDIT SINH VIÊN</h4>
+            <form action="" class="d-flex flex-column align-content-center w-100 align-items-center">
+                <div class="form_edit d-flex flex-row justify-content-center align-items-center w-75 mt-5">
+                    <div class="me-5 w-50">
+                        <label for="ipEDMSV" class="form-label">Mã Sinh Viên:</label>
+                        <input type="text" class="form-control" id="ipEDMSV" />
+                        <p class="text text-danger" id="errEDMSV"></p>
+
+                        <label for="exampleInputEmail1" class="form-label">Email: </label>
+                        <input type="ipEDMail" class="form-control" id="ipEDMail" />
+                        <p class="text text-danger" id="errEDMail"></p>
+
+                        <label for="ipEDBirth" class="form-label">Ngày Sinh: </label>
+                        <input type="date" class="form-control" id="ipEDBirth" />
+                        <p class="text text-danger" id="errEDBirth"></p>
+
+                    </div>
+
+                    <div class="ms-5 w-50">
+                        <label for="ipEDName" class="form-label">Tên Sinh Viên: </label>
+                        <input type="text" class="form-control" id="ipEDName" />
+                        <p class="text text-danger" id="errEDName"></p>
+
+
+                        <label for="ipEDPass" class="form-label">Mật Khẩu: </label>
+                        <input type="password" class="form-control" id="ipEDPass" />
+                        <p class="text text-danger" id="errEDPass"></p>
+
+
+                        <label for="ipEDCourse" class="form-label">Khóa Học: </label>
+                        <select class="form-select" id="ipEDCourse" aria-label="Floating label select example">
+                            <option selected>Chọn Khóa học</option>
+                            <option value="React Native">React Native</option>
+                            <option value="FLUTER">FLUTER</option>
+                            <option value="Web FullStack">Web FullStack</option>
+                            <option value="Java">Java</option>
+                        </select>
+                        <p class="text text-danger" id="errEDKH"></p>
+
+                        <!-- <label for="floatingSelect">Works with selects</label> -->
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between w-75 point">
+                    <div>
+                        <label for="ipEDDT" class="form-label">Điểm Toán: </label>
+                        <input type="number" class="form-control" id="ipEDDT" />
+                        <p class="text text-danger" id="errEDDT"></p>
+
+                    </div>
+                    <div>
+                        <label for="ipEDDL" class="form-label">Điểm Lý: </label>
+                        <input type="number" class="form-control" id="ipEDDL" />
+                        <p class="text text-danger" id="errEDDL"></p>
+
+                    </div>
+                    <div>
+                        <label for="ipEDDH" class="form-label">Điểm Hóa: </label>
+                        <input type="number" class="form-control" id="ipEDDH" />
+                        <p class="text text-danger" id="errEDDH"></p>
+
+                    </div>
+                </div>
+            </form>
+            <div class="w-100 d-flex justify-content-center">
+                <button type="button" id="btnEDBack" onclick="EDBack()" class="btn btn-primary me-3" >back</button>
+                <button type="button" id="btnEDSave" onclick="btnEdit()" class="btn btn-info ms-3">Save</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="./DOM.js"></script>
+    <script src="./SinhVien.js"></script>
+    <script src="./DSSV.js"></script>
+    <script src="./Validation.js"></script>
+    <script src="./main.js"></script>
+
+</body>
+
+</html>

@@ -128,56 +128,7 @@ function ADDSV() {
 }
 
 
-// update 
 
-
-
-
-
-
-// function loadListSV() {
-//     let table = DOMID("table");
-
-//     for (let i = 0; i < table.rows.length; i++) {
-//         table.deleteRow(i);
-//     }
-
-//     for (let i = 0; i < listSV.list.length; i++) {
-//         // let trTable = document.createElement("tr");
-//         // trTable.value = listSV.list[i].msv;
-//         // let sv = listSV.list[i];
-//         // let tdMaSV = crTD("MSV", sv.msv);
-//         // let tdTenSV = crTD("TEN", sv.name);
-//         // let tdMail = crTD("email", sv.email);
-//         // let tdBirth = crTD("birth", sv.birth);
-//         // let tdKhoaHoc = crTD("khoaHoc", sv.course);
-//         // let tdDTB = crTD("dtb", sv.dTB);
-
-//         // addTR(trTable, tdMaSV, tdTenSV, tdMail, tdBirth, tdKhoaHoc, tdDTB);
-
-//         // table.appendChild(trTable);
-//         let sv = listSV.list[i];
-//         table.appendChild(row(sv.msv, sv.name, sv.birth, sv.email, sv.course, sv.dTB));
-//     }
-// }
-
-
-
-// function crTD(clName, value) {
-//     let td = document.createElement("td");
-//     td.textContent = value;
-//     td.className = clName;
-//     return td;
-// }
-
-// function addTR(trTablee, msv, name, mail, birth, kh, dtb) {
-//     trTablee.appendChild(msv);
-//     trTablee.appendChild(name);
-//     trTablee.appendChild(mail);
-//     trTablee.appendChild(birth);
-//     trTablee.appendChild(kh);
-//     trTablee.appendChild(dtb);
-// }
 
 
 
@@ -274,10 +225,12 @@ function btnBack() {
 
 
 function saveLC() {
-    let danhSachSinhVienJson = JSON.stringify(listSV.list);
-    localStorage.setItem("ListSinhVienLC", danhSachSinhVienJson);
+    if (listSV.list.length > 0) {
+        let danhSachSinhVienJson = JSON.stringify(listSV.list);
+        localStorage.setItem("ListSinhVienLC", danhSachSinhVienJson);
 
-    alert('Save successfully!');
+        alert('Save successfully!');
+    }
 }
 
 
@@ -285,7 +238,10 @@ function saveLC() {
 function getLC() {
     let jsDSSV = localStorage.getItem("ListSinhVienLC");
     let listJS = JSON.parse(jsDSSV);
-    listSV.list = listJS;
+    
+    if(listJS.length > 0){
+        listSV.list = listJS;
+    }
     // console.log(listSV.list);
     // console.log(listSV.list[0].dTB);
 
@@ -310,7 +266,7 @@ function loadForm() {
     ipMail.value = "";
 }
 
-function loadForm2(){
+function loadForm2() {
     ipEDMSV.value = '';
     ipEDDL.value = '';
     ipEDDT.value = '';
@@ -341,8 +297,8 @@ function updateSV() {
     let diaglog = DOMID("diaglog");
     diaglog.style.display = 'none';
     setVLID();
-}   
-function setVLID(){
+}
+function setVLID() {
     let ipEDMSV = DOMID('ipEDMSV');
     ipEDMSV.readOnly = true;
     ipEDMSV.value = msvED;
@@ -353,7 +309,7 @@ function EDBack() {
     form_edit.style.display = 'none';
 }
 
-function btnEdit(){
+function btnEdit() {
     getIDED();
 
     console.log(ipEDMSV.value);
@@ -462,11 +418,11 @@ function btnEdit(){
 
 
 
-function search(){
+function search() {
     let search = DOMID('search').value;
     var regex = new RegExp(search, "i");
 
-    let arrSearch = listSV.list.filter((list)=> regex.test(list.name));
+    let arrSearch = listSV.list.filter((list) => regex.test(list.name));
 
     console.log(arrSearch);
 
@@ -476,11 +432,11 @@ function search(){
 
 }
 
-function loadTable(){
+function loadTable() {
     loadListSV(listSV.list);
 }
 
-function deleteForm(){
+function deleteForm() {
     getID();
     loadForm();
 }
